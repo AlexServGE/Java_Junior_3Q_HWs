@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Корзина
+ *
  * @param <T> Еда
  */
 public class Cart<T extends Food> {
@@ -25,10 +26,10 @@ public class Cart<T extends Food> {
 
     /**
      * Создание нового экземпляра корзины
+     *
      * @param market принадлежность к магазину
      */
-    public Cart(Class<T> clazz, UMarket market)
-    {
+    public Cart(Class<T> clazz, UMarket market) {
         this.clazz = clazz;
         this.market = market;
         foodstuffs = new ArrayList<>();
@@ -39,58 +40,8 @@ public class Cart<T extends Food> {
     /**
      * Балансировка корзины
      */
-    public void cardBalancing()
-    {
-        boolean proteins = false;
-        boolean fats = false;
-        boolean carbohydrates = false;
-
-        for (var food : foodstuffs)
-        {
-            if (!proteins && food.getProteins())
-                proteins = true;
-            else
-            if (!fats && food.getFats())
-                fats = true;
-            else
-            if (!carbohydrates && food.getCarbohydrates())
-                carbohydrates = true;
-            if (proteins && fats && carbohydrates)
-                break;
-        }
-
-        if (proteins && fats && carbohydrates)
-        {
-            System.out.println("Корзина уже сбалансирована по БЖУ.");
-            return;
-        }
-
-        for (var thing : market.getThings(clazz))
-        {
-            if (!proteins && thing.getProteins())
-            {
-                proteins = true;
-                foodstuffs.add(thing);
-            }
-            else if (!fats && thing.getFats())
-            {
-                fats = true;
-                foodstuffs.add(thing);
-            }
-            else if (!carbohydrates && thing.getCarbohydrates())
-            {
-                carbohydrates = true;
-                foodstuffs.add(thing);
-            }
-            if (proteins && fats && carbohydrates)
-                break;
-        }
-
-        if (proteins && fats && carbohydrates)
-            System.out.println("Корзина сбалансирована по БЖУ.");
-        else
-            System.out.println("Невозможно сбалансировать корзину по БЖУ.");
-
+    public void cardBalancing() {
+        CartBalancingService.cardBalancing(clazz, market, foodstuffs);
     }
 
     public Collection<T> getFoodstuffs() {
@@ -100,7 +51,7 @@ public class Cart<T extends Food> {
     /**
      * Распечатать список продуктов в корзине
      */
-    public void printFoodstuffs(){
+    public void printFoodstuffs() {
         /*int index = 1;
         for (var food : foodstuffs)
             System.out.printf("[%d] %s (Белки: %s Жиры: %s Углеводы: %s)\n", index++, food.getName(), food.getProteins() ? "Да" : "Нет",
