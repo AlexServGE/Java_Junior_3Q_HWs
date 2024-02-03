@@ -2,6 +2,13 @@ package ru.geekbrains.junior.lesson2.task2;
 
 import java.util.UUID;
 
+/**
+ * Дополнительная задача:
+ *
+ * Доработайте метод генерации запроса на удаление объекта из таблицы БД (DELETE FROM <Table> WHERE ID = '<id>')
+ * В классе QueryBuilder который мы разработали на семинаре.
+ */
+
 public class Program {
 
     /*
@@ -28,20 +35,21 @@ public class Program {
     public static void main(String[] args) throws IllegalAccessException {
         Employee user = new Employee("Stanislav", "sample@gmail.com");
 
-        QueryBuilder queryBuilder = new QueryBuilder();
-
         // Генерация SQL-запроса для вставки
-        String insertQuery = queryBuilder.buildInsertQuery(user);
+        String insertQuery = QueryBuilder.buildInsertQuery(user);
         System.out.println("Insert Query: " + insertQuery);
 
         // Генерация SQL-запроса для выборки
-        UUID pk = UUID.randomUUID();
-        String selectQuery = queryBuilder.buildSelectQuery(Employee.class, pk);
+        String selectQuery = QueryBuilder.buildSelectQuery(Employee.class, user.getId());
         System.out.println("Select Query: " + selectQuery);
 
         // Генерация SQL-запроса для обновления
-        String updateQuery = queryBuilder.buildUpdateQuery(user);
+        String updateQuery = QueryBuilder.buildUpdateQuery(user);
         System.out.println("Update Query: " + updateQuery);
+
+        // Генерация SQL-запроса для удаления
+        String deleteQuery = QueryBuilder.buildDeleteQuery(Employee.class, user.getId());
+        System.out.println("Delete Query: " + deleteQuery);
 
     }
 
